@@ -66,8 +66,9 @@ int main(int ac, char **av) {
 				newlines++;
 			}
 		}
-	for (int i = 0; i < newlines; i++)
-		printf("\x1b[A");				//this is for printing from the same position to avoid clearing the terminal
+	if (ac > 2)
+		for (int i = 0; i < newlines; i++)
+			printf("\x1b[A");				//this is for printing from the same position to avoid clearing the terminal
 	output[oheight * (owidth + 1)] = '\0';
 	write(1, output, oheight * (owidth + 1));
 	free(output);

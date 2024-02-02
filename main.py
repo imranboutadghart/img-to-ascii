@@ -16,4 +16,4 @@ while(result):
     if (result):
         img = cv.flip(img, 1)
         cv.imwrite("test.png",img)
-        os.system("./img_to_ascii test.png")
+        os.system("./img_to_ascii test.png 1")
