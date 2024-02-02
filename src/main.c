@@ -40,7 +40,7 @@ int get_WHratio_grey(unsigned char *img, int width, int height, int x, int y)
 }
 
 int main(int ac, char **av) {
-	int				width, height, channels, owidth, oheight;
+	int				width, height, channels, owidth, oheight, newlines = 0;
 	unsigned char	*img;
 	char			*output;
 
@@ -59,11 +59,16 @@ int main(int ac, char **av) {
 			int tmp = get_WHratio_grey(img, width, height, i * WRATIO, j * HRATIO);
 			output[j * (owidth + 1) + i] = arr[tmp * ARRLEN / 256];
 			if (i == owidth - 1)
+			{
 				output[j * (owidth + 1) + i + 1] = '\n';
+				newlines++;
+			}
 			/*printf("%c", arr[tmp * ARRLEN / 256]);
 			if (i == width / WRATIO - 1)
 				printf("\n");*/
 		}
+	for (int i = 0; i < newlines; i++)
+		printf("\x1b[A");
 	output[oheight * (owidth + 1)] = '\0';
 	write(1, output, oheight * (owidth + 1));
 	free(output);

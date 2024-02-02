@@ -11,5 +11,5 @@ while(True):
     if (result):
         img = cv.flip(img, 1)
         cv.imwrite("test.png",img)
-        os.system("clear")
+        #os.system("clear")
         os.system("./img_to_ascii test.png")
