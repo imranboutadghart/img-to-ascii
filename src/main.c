@@ -3,10 +3,14 @@
 
 #include "../stb/stb_image.h"
 #include "../stb/stb_image_write.h"
+#include  <unistd.h>
+
 #define ARRLEN 22
 #define WRATIO 6
 #define HRATIO 8
+
 char arr[] = " .,'\":;!-+=>i|lOPMX$#@";
+
 void make_grey(unsigned char *img, int width, int height)
 {
 	int				grey;
@@ -36,8 +40,9 @@ int get_WHratio_grey(unsigned char *img, int width, int height, int x, int y)
 }
 
 int main(int ac, char **av) {
-	int width, height, channels;
-	unsigned char *img;
+	int				width, height, channels, owidth, oheight;
+	unsigned char	*img;
+	char			*output;
 
 	if (ac < 2)
 		return (printf("Program requires input!"), 1);
@@ -45,14 +50,23 @@ int main(int ac, char **av) {
 	if (!img)
 		return (printf("image could not be loaded\nReason : %s", stbi_failure_reason()), stbi_image_free(img), 1);
 	make_grey(img, width, height);
-	for (int j = 0; j < height / HRATIO; j++)
-		for (int i = 0; i < width / WRATIO; i++)
+	owidth = width / WRATIO;
+	oheight = height / HRATIO;
+	output = malloc((owidth + 1) * oheight + 1);
+	for (int j = 0; j < oheight; j++)
+		for (int i = 0; i < owidth; i++)
 		{
 			int tmp = get_WHratio_grey(img, width, height, i * WRATIO, j * HRATIO);
-			printf("%c", arr[tmp * ARRLEN / 256]);
+			output[j * (owidth + 1) + i] = arr[tmp * ARRLEN / 256];
+			if (i == owidth - 1)
+				output[j * (owidth + 1) + i + 1] = '\n';
+			/*printf("%c", arr[tmp * ARRLEN / 256]);
 			if (i == width / WRATIO - 1)
-				printf("\n");
+				printf("\n");*/
 		}
+	output[oheight * (owidth + 1)] = '\0';
+	write(1, output, oheight * (owidth + 1));
+	free(output);
 	stbi_image_free(img);
     return 0;
 }
