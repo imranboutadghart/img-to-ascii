@@ -10,7 +10,8 @@ if (len(sys.argv) < 2):
     cam = cv.VideoCapture(0)
 else:
     cam = cv.VideoCapture(sys.argv[1])
-while(True):
+result = True
+while(result):
     result, img = cam.read()
     if (result):
         img = cv.flip(img, 1)

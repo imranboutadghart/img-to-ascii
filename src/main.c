@@ -20,13 +20,14 @@ void make_grey(unsigned char *img, int width, int height)
 		for (int j = 0; j < height; j++)
 		{
 			data = img + (j * width + i) * 3;
-			grey = 0.299 * data[0] + 0.587 * data[1] + 0.114 * data[2];
+			grey = 0.299 * data[0] + 0.587 * data[1] + 0.114 * data[2];//getting the greyscale of each pixel
 			data[0] = grey;
 			data[1] = grey;
 			data[2] = grey;
 		}
 }
-int get_WHratio_grey(unsigned char *img, int width, int height, int x, int y)
+
+int get_WHratio_grey(unsigned char *img, int width, int height, int x, int y)//getting the average grey scale of collective pixels
 {
 	int grey = 0;
 	
@@ -48,7 +49,8 @@ int main(int ac, char **av) {
 		return (printf("Program requires input!"), 1);
 	img = stbi_load(av[1], &width, &height, &channels, 3);
 	if (!img)
-		return (printf("image could not be loaded\nReason : %s", stbi_failure_reason()), stbi_image_free(img), 1);
+		return (printf("image could not be loaded\nReason : %s", stbi_failure_reason()),
+			   stbi_image_free(img), 1);
 	make_grey(img, width, height);
 	owidth = width / WRATIO;
 	oheight = height / HRATIO;
@@ -63,12 +65,9 @@ int main(int ac, char **av) {
 				output[j * (owidth + 1) + i + 1] = '\n';
 				newlines++;
 			}
-			/*printf("%c", arr[tmp * ARRLEN / 256]);
-			if (i == width / WRATIO - 1)
-				printf("\n");*/
 		}
 	for (int i = 0; i < newlines; i++)
-		printf("\x1b[A");
+		printf("\x1b[A");				//this is for printing from the same position to avoid clearing the terminal
 	output[oheight * (owidth + 1)] = '\0';
 	write(1, output, oheight * (owidth + 1));
 	free(output);
