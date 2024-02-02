@@ -3,15 +3,15 @@
 
 #include "../stb/stb_image.h"
 #include "../stb/stb_image_write.h"
-#define ARRLEN 17
+#define ARRLEN 22
 #define WRATIO 6
 #define HRATIO 8
-char arr[] = ".,\"!;:-+=<>i|l$#@";
-
+char arr[] = " .,'\":;!-+=>i|lOPMX$#@";
 void make_grey(unsigned char *img, int width, int height)
 {
-	int grey;
-	unsigned char *data;
+	int				grey;
+	unsigned char	*data;
+
 	for (int i = 0; i < width; i++)
 		for (int j = 0; j < height; j++)
 		{
@@ -22,7 +22,7 @@ void make_grey(unsigned char *img, int width, int height)
 			data[2] = grey;
 		}
 }
-int get_6By8_grey(unsigned char *img, int width, int height, int x, int y, int channels)
+int get_WHratio_grey(unsigned char *img, int width, int height, int x, int y)
 {
 	int grey = 0;
 	
@@ -30,7 +30,7 @@ int get_6By8_grey(unsigned char *img, int width, int height, int x, int y, int c
 		return (0);
 	for (int i = x; i < x + WRATIO; i++)
 		for (int j = y; j < y + HRATIO; j++)
-			grey += img[(j * width + i) * channels];
+			grey += img[(j * width + i) * 3];
 	grey /= WRATIO * HRATIO;
 	return (grey);
 }
@@ -48,8 +48,7 @@ int main(int ac, char **av) {
 	for (int j = 0; j < height / HRATIO; j++)
 		for (int i = 0; i < width / WRATIO; i++)
 		{
-			//printf("w = %d, h = %d, i = %3d, ir = %3d, j = %3d, jr = %3d, channels = %d\n", width, height, i, i * WRATIO, j, j * HRATIO, channels);
-			int tmp = get_6By8_grey(img, width, height, i * WRATIO, j * HRATIO, 3);
+			int tmp = get_WHratio_grey(img, width, height, i * WRATIO, j * HRATIO);
 			printf("%c", arr[tmp * ARRLEN / 256]);
 			if (i == width / WRATIO - 1)
 				printf("\n");
