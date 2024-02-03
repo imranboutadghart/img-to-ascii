@@ -1,6 +1,6 @@
 CC := cc
-LIB := -lX11 -lXext -lmlx -lm
-CFLAGS := -Wall -Wextra
+LIB := -lX11 -lXext -lm
+CFLAGS := -Wall -Wextra -O3
 SRC := $(wildcard src/*.c)
 OBJ := $(patsubst src/%.c, bin/%.o, $(SRC))
 NAME := img_to_ascii
@@ -18,7 +18,7 @@ debug : fclean $(NAME)
 	gdb ./$(NAME)
 
 test : $(NAME)
-	./$(NAME)
+	./$(NAME) test.png
 clean :
 	rm -rf $(OBJ)
 fclean : clean

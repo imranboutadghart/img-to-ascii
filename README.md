@@ -7,6 +7,7 @@ This project is a command-line tool that converts images into text and renders t
 - Convert images into text for terminal rendering.
 - Process live video feed and convert it into text.
 - Supports both live camera feed and video file input.
+- Supports 8 color pallets now
 
 ## Requirements
 - Gcc compiler for building the image to text converter.
