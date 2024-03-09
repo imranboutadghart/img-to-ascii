@@ -13,6 +13,8 @@ This project is a command-line tool that converts images into text and renders t
 - Gcc compiler for building the image to text converter.
 - Make
 - Python 3.x for running the video feed script.
+- C libraries: math, X11
+- Python libraries: openCV
 
 ## Installation
 ### Image to Text Converter (C)
